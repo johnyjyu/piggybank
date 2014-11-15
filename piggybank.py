@@ -9,13 +9,31 @@ import multiprocessing
 import hashlib
 
 
+users = {'33d99a82-2463-458f-96b5-20fbf0ec36dc': 'piggybank123456789'};
+
+
+def printu():
+    for key, value in users.iteritems():
+        print key, value
+
+
+def userData(id):
+    ret = users[id]
+    return ret
+
+
 def passGen(password):
-    passkey = hashlib.sha512(password).hexdigest()
+    passkey = hashlib.sha224(password).hexdigest()
     return passkey
 
+
 def mkWallet(password):
-    from blockchain import  createwallet
-    wallet = createwallet.create_wallet(password, 'api', label = 'piggybank')
+    password = passGen(password)
+    from blockchain import createwallet
+    wallet = createwallet.create_wallet(password, 'cd6938f8-cd49-4aa0-a766-27c4b6d812c4', label = 'piggybank')
+    global users
+    users[wallet.identifier] = password
+    return wallet.identifier
 
 def getBTC(id, key):
     wallet = Wallet(id, key)
@@ -70,6 +88,8 @@ def inittimer(user, password, number, id, key):
     process = multiprocessing.Process(target=timer(user, password, number, id, key))
     process.start()
     return
+
+
 if __name__ == '__main__':
     '''
 desert cross town crackdown neuroscience cedar dui mozart campion unkempt customizable imperceptibly havoc jerseys grahams hofstra corporately crawling cultivates darnell
