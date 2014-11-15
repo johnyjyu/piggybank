@@ -2,8 +2,8 @@ __author__ = 'MD'
 import piggybank
 
 if __name__ == '__main__':
-    password = piggybank.passGen("hello")
-    w2id = piggybank.mkWallet(password)
+    piggybank.init()
+    w2id = piggybank.mkWallet()
     piggybank.printu()
     print piggybank.userData(w2id)
     id = raw_input("id: ")

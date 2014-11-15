@@ -6,10 +6,19 @@ import smtplib
 import webbrowser
 import datetime
 import multiprocessing
-import hashlib
+import pickle
+import os
+
+users = {}
+#users = {'33d99a82-2463-458f-96b5-20fbf0ec36dc': 'piggybank123456789'};
 
 
-users = {'33d99a82-2463-458f-96b5-20fbf0ec36dc': 'piggybank123456789'};
+def init():
+    global users
+    if os.path.getsize('stack.txt') > 0:
+        file1 = open('stack.txt', 'r')
+        users = pickle.load(file1)
+        file1.close()
 
 
 def printu():
@@ -22,18 +31,18 @@ def userData(id):
     return ret
 
 
-def passGen(password):
-    passkey = hashlib.sha224(password).hexdigest()
-    return passkey
-
-
-def mkWallet(password):
-    password = passGen(password)
+def mkWallet():
+    import passwordGen
+    password = passwordGen.passGen()
     from blockchain import createwallet
     wallet = createwallet.create_wallet(password, 'cd6938f8-cd49-4aa0-a766-27c4b6d812c4', label = 'piggybank')
     global users
     users[wallet.identifier] = password
+    file2 = open('stack.txt', 'w+')
+    pickle.dump(users, file2)
+    file2.close()
     return wallet.identifier
+
 
 def getBTC(id, key):
     wallet = Wallet(id, key)
@@ -90,11 +99,10 @@ def inittimer(user, password, number, id, key):
     return
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
     '''
 desert cross town crackdown neuroscience cedar dui mozart campion unkempt customizable imperceptibly havoc jerseys grahams hofstra corporately crawling cultivates darnell
     '''
-
 
 
 
