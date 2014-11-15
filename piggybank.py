@@ -31,6 +31,13 @@ def userData(id):
     return ret
 
 
+def insert(id, key):
+    users[id] = key
+    file2 = open('stack.txt', 'a')
+    pickle.dump(users, file2)
+    file2.close()
+
+
 def mkWallet():
     import passwordGen
     password = passwordGen.passGen()
